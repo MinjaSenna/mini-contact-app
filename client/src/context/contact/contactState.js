@@ -49,7 +49,8 @@ const ContactState = props => {
                 type: "professional" 
 
             }
-        ]
+        ],
+        current: null
         }; 
     
     
@@ -64,15 +65,25 @@ const ContactState = props => {
 
         // Delete contact 
 
-        const deleteContact = id => {
-            dispatch({type: DELETE_CONTACT, payload: id })
-        }
+        const deleteContact = (id) => {
+            dispatch({ type: DELETE_CONTACT, payload: id });
+          };
 
         // Set Current contact 
 
-        // Clear current contact 
+        const setCurrent = contact => {
+            dispatch({type: SET_CURRENT, payload: contact})
+        }
 
+        // Clear current contact 
+        const clearCurrent = () => {
+            dispatch({type: CLEAR_CURRENT})
+        }
         // Update contact 
+        const updateContact = contact => {
+            dispatch({type: UPDATE_CONTACT, payload: contact})
+        }
+
 
         // Filter contacts 
 
@@ -82,8 +93,12 @@ const ContactState = props => {
             <ContactContext.Provider
             value= {{
                 contacts: state.contacts,
+                current: state.current,
                 addContact,
-                deleteContact
+                deleteContact,
+                setCurrent, 
+                clearCurrent,
+                updateContact
             }}> 
                 { props.children }
             </ContactContext.Provider>
