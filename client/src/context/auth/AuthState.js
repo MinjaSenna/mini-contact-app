@@ -1,6 +1,6 @@
 import React, {useReducer } from "react"; 
 import AuthContext from "./authContext";
-import AuthReducer from "./authReducer"; 
+import authReducer from "./authReducer"; 
 
 import { 
     REGISTER_SUCCESS,
@@ -50,7 +50,7 @@ const AuthState = props => {
             }}> 
                 { props.children }
             </AuthContext.Provider>
-        )
+        )  
     } 
 
         export default AuthState; 

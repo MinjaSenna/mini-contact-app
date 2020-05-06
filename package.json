@@ -4,8 +4,8 @@
   "description": "contact manager app",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js", 
+    "test": "jest",
+    "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "client install": "npm install --client",
@@ -19,10 +19,13 @@
     "config": "^3.3.1",
     "express": "^4.17.1",
     "express-validator": "^6.4.0",
+    "jest-dom": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.10"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.4",
     "concurrently": "^5.1.0",
     "nodemon": "^2.0.3"
   }
