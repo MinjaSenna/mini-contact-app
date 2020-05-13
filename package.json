@@ -4,11 +4,10 @@
   "description": "contact manager app",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "client install": "npm install --client",
+    "client install": "npm install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
@@ -16,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "client": "file:client",
     "config": "^3.3.1",
     "express": "^4.17.1",
     "express-validator": "^6.4.0",
@@ -24,8 +24,6 @@
     "mongoose": "^5.9.10"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.5.0",
-    "@testing-library/react": "^10.0.4",
     "concurrently": "^5.1.0",
     "nodemon": "^2.0.3"
   }

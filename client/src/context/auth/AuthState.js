@@ -1,6 +1,8 @@
 import React, {useReducer } from "react"; 
+import axios from "axios"; 
 import AuthContext from "./authContext";
 import authReducer from "./authReducer"; 
+import setAuthToken from "../../utils/setAuthToken"; 
 
 import { 
     REGISTER_SUCCESS,
@@ -26,14 +28,53 @@ const AuthState = props => {
         const [state, dispatch] = useReducer(authReducer, initialState); 
 
        // LOAD USER 
+       const loadUser = async () => {
+            if (localStorage.token) {
+                setAuthToken(localStorage.token); 
+
+            }
+
+            try {
+               const res = await axios.get("/api/auth"); 
+               
+               dispatch ({type : USER_LOADED, payload: res.data }); 
+            } catch (error) {
+                dispatch({type: AUTH_ERROR}); 
+            }
+       } ;
 
        // REGISTER USER 
+       const register = async formData => {
+           const config = {
+               headers: {
+                   "Content-type": "application/json"
+               }
+           }
+           try {
+               const res = await axios.post("/api/users", formData, config); 
+               dispatch({
+                   type: REGISTER_SUCCESS,   
+                   payload: res.data
+               });
+               loadUser(); 
+           } catch (err) {
+            dispatch({
+              type: REGISTER_FAIL,
+              payload: err.response.data.msg
+            });
+           }
+       }
 
        // LOGIN USER 
+       const loginUser = () => console.log("login user"); 
+
 
        // LOGOUT USER 
+       const logoutUser = () => console.log("Logout user"); 
 
        // CLEAR ERRORS 
+       const clearErrors = () => dispatch({ type: CLEAR_ERRORS})
+
 
       
 
@@ -45,7 +86,12 @@ const AuthState = props => {
                 isAuthenticated: state.isAuthenticated,
                 loading: state.loading,
                 user: state.user,
-                token: state.error 
+                error: state.error,
+                register,
+                loadUser,
+                loginUser,
+                logoutUser,
+                clearErrors
 
             }}> 
                 { props.children }
