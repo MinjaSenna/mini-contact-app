@@ -1,29 +1,61 @@
-import React from 'react'; 
+import React, {Fragment, useContext} from 'react'; 
 import PropTypes from "prop-types"; 
 import {Link } from "react-router-dom"; 
+import AuthContext from "../../context/auth/authContext"; 
 
 export const Navbar = ({title, icon }) => {
+    const authContext = useContext(AuthContext); 
+
+    const {isAuthenticated, logout, user} = authContext; 
+
+    const greeting = new Date();
+    const greetingTime = greeting.getHours(); 
+
+    const onLogout = () => {
+        logout(); 
+    }
+
+
+    const authLinks = (
+        
+        <Fragment> 
+
+            <li> 
+                {greetingTime < 12 ? "Good morning, " : greetingTime < 18 ? "Good afternoon, " : "Good evening,"}
+
+                
+                 {user && user.name + "👋🏻"}  </li>
+
+            <li> 
+                <a onClick={onLogout} href="#!"> 
+                <i className="fas fa-sign-out-alt"> </i>
+                <span className="hide-sm"> Logout </span>
+                </a>
+            </li>
+     </Fragment>
+    ); 
+
+    const guestLinks = (
+        <Fragment> 
+
+            <li> 
+                <Link to="/login"> Login </Link> 
+                </li>
+                <li> 
+                    <Link to="/register"> Register </Link> 
+                </li>
+         </Fragment>
+    ); 
+
+
     return (
         <div>
             <div className="navbar bg-primary"> 
             <h1> 
                 <i className={icon} /> {title}
             </h1>
-
             <ul> 
-                <li> 
-                    <Link to="/"> Home </Link>
-                    </li> 
-
-                    <li> 
-                    <Link to="/about"> About </Link> 
-                </li>
-                <li> 
-                    <Link to="/login"> Login </Link> 
-                </li>
-                <li> 
-                    <Link to="/register"> Register </Link> 
-                </li>
+                {isAuthenticated ? authLinks : guestLinks }
             </ul>
             </div>
             
